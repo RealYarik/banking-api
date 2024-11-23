@@ -8,19 +8,19 @@ import java.util.List;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
-import com.solution.bank.domain.account.Account;
+import com.solution.bank.domain.account.BankAccount;
 import com.solution.bank.dto.search.account.AccountSearchCriteria;
 import com.solution.bank.repository.filter.SpecificationBuilder;
 import com.solution.bank.util.SQLUtils;
 
 @Component
-public class AccountSpecificationBuilder implements SpecificationBuilder<Account, AccountSearchCriteria> {
+public class AccountSpecificationBuilder implements SpecificationBuilder<BankAccount, AccountSearchCriteria> {
 
 	@Override
-	public Specification<Account> buildSpecification(AccountSearchCriteria criteria) {
-		Specification<Account> specification = (root, query, cb) -> cb.conjunction();
+	public Specification<BankAccount> buildSpecification(AccountSearchCriteria criteria) {
+		Specification<BankAccount> specification = (root, query, cb) -> cb.conjunction();
 
-		List<Specification<Account>> specs = new ArrayList<>();
+		List<Specification<BankAccount>> specs = new ArrayList<>();
 
 		SQLUtils.addIfNotNull(specs, criteria.getBalanceGreaterThan(), this::getBalanceGreaterThanSpecification);
 		SQLUtils.addIfNotNull(specs, criteria.getBalanceLessThan(), this::getBalanceLessThanSpecification);
@@ -28,30 +28,30 @@ public class AccountSpecificationBuilder implements SpecificationBuilder<Account
 		SQLUtils.addIfNotNull(specs, criteria.getCreationDate(), this::getCreationDateSpecification);
 		SQLUtils.addIfNotEmpty(specs, criteria.getCurrency(), this::getCurrencySpecification);
 
-		for (Specification<Account> spec : specs) {
+		for (Specification<BankAccount> spec : specs) {
 			specification = where(specification).and(spec);
 		}
 
 		return specification;
 	}
 
-	private Specification<Account> getBalanceGreaterThanSpecification(Double amount) {
+	private Specification<BankAccount> getBalanceGreaterThanSpecification(Double amount) {
 		return (root, query, cb) -> cb.greaterThan(root.get("balance"), amount);
 	}
 
-	private Specification<Account> getBalanceLessThanSpecification(Double amount) {
+	private Specification<BankAccount> getBalanceLessThanSpecification(Double amount) {
 		return (root, query, cb) -> cb.lessThan(root.get("balance"), amount);
 	}
 
-	private Specification<Account> getOwnerNameSpecification(String ownerName) {
+	private Specification<BankAccount> getOwnerNameSpecification(String ownerName) {
 		return (root, query, cb) -> cb.like(root.get("ownerName"), "%" + ownerName + "%");
 	}
 
-	private Specification<Account> getCreationDateSpecification(Object creationDate) {
+	private Specification<BankAccount> getCreationDateSpecification(Object creationDate) {
 		return (root, query, cb) -> cb.equal(root.get("creationDate"), creationDate);
 	}
 
-	private Specification<Account> getCurrencySpecification(String currency) {
+	private Specification<BankAccount> getCurrencySpecification(String currency) {
 		return (root, query, cb) -> cb.equal(root.get("currency"), currency);
 	}
 }
