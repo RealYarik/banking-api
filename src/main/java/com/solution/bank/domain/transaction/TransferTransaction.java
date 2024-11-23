@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class TransferTransaction extends AccountTransaction {
 
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	@JoinColumn(name = "target_account_id")
 	private BankAccount targetAccount;
 

@@ -19,6 +19,11 @@ public class BankAccountController {
 		this.bankAccountService = accountService;
 	}
 
+	@GetMapping
+	public List<BankAccountDTO> getAccounts() {
+		return bankAccountService.getAccounts();
+	}
+
 	@PostMapping("/search")
 	public List<BankAccountDTO> searchAccounts(@RequestBody AccountSearchCriteria searchCriteria) {
 		return bankAccountService.searchAccounts(searchCriteria);

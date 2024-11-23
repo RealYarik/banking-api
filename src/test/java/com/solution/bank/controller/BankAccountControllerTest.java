@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -41,8 +42,8 @@ class BankAccountControllerTest {
 	void shouldReturnAccountsWhenSearchCriteriaIsValid() throws Exception {
 		AccountSearchCriteria searchCriteria = new AccountSearchCriteria();
 		searchCriteria.setOwnerName("John Doe");
-		searchCriteria.setBalanceGreaterThan(100.0);
-		searchCriteria.setBalanceLessThan(1000.0);
+		searchCriteria.setBalanceGreaterThan(new BigDecimal(100));
+		searchCriteria.setBalanceLessThan(new BigDecimal(100));
 
 		BankAccountDTO bankAccountDTO = new BankAccountDTO();
 		bankAccountDTO.setOwnerName("John Doe");

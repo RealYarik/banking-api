@@ -44,13 +44,9 @@ public class AccountTransactionRepository {
 	}
 
 	public void logTransferTransaction(TransactionRequest request) {
-		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, transfer_purpose, uuid) " +
-			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'TRANSFER', ?, ?)";
-		jdbcTemplate.update(query, request.getFromAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose(), RandomUtils.generateUuid());
-
-		query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, transfer_purpose, uuid) " +
-			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'TRANSFER', ?, ?)";
-		jdbcTemplate.update(query, request.getToAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose(), RandomUtils.generateUuid());
+		String query = "INSERT INTO account_transaction (account_id, target_account_id, transaction_date, amount, currency, transaction_type, transfer_purpose, uuid) " +
+			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), (SELECT id FROM bank_account WHERE account_number = ?) ,NOW(), ?, ?, 'TRANSFER', ?, ?)";
+		jdbcTemplate.update(query, request.getFromAccountNumber(), request.getToAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose(), RandomUtils.generateUuid());
 	}
 
 	public boolean existsByAccountNumber(String accountNumber) {

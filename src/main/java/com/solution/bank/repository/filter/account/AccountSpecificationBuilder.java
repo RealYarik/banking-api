@@ -2,6 +2,7 @@ package com.solution.bank.repository.filter.account;
 
 import static org.springframework.data.jpa.domain.Specification.where;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,6 @@ public class AccountSpecificationBuilder implements SpecificationBuilder<BankAcc
 		SQLUtils.addIfNotNull(specs, criteria.getBalanceGreaterThan(), this::getBalanceGreaterThanSpecification);
 		SQLUtils.addIfNotNull(specs, criteria.getBalanceLessThan(), this::getBalanceLessThanSpecification);
 		SQLUtils.addIfNotEmpty(specs, criteria.getOwnerName(), this::getOwnerNameSpecification);
-		SQLUtils.addIfNotNull(specs, criteria.getCreationDate(), this::getCreationDateSpecification);
 		SQLUtils.addIfNotEmpty(specs, criteria.getCurrency(), this::getCurrencySpecification);
 
 		for (Specification<BankAccount> spec : specs) {
@@ -35,20 +35,16 @@ public class AccountSpecificationBuilder implements SpecificationBuilder<BankAcc
 		return specification;
 	}
 
-	private Specification<BankAccount> getBalanceGreaterThanSpecification(Double amount) {
+	private Specification<BankAccount> getBalanceGreaterThanSpecification(BigDecimal amount) {
 		return (root, query, cb) -> cb.greaterThan(root.get("balance"), amount);
 	}
 
-	private Specification<BankAccount> getBalanceLessThanSpecification(Double amount) {
+	private Specification<BankAccount> getBalanceLessThanSpecification(BigDecimal amount) {
 		return (root, query, cb) -> cb.lessThan(root.get("balance"), amount);
 	}
 
 	private Specification<BankAccount> getOwnerNameSpecification(String ownerName) {
 		return (root, query, cb) -> cb.like(root.get("ownerName"), "%" + ownerName + "%");
-	}
-
-	private Specification<BankAccount> getCreationDateSpecification(Object creationDate) {
-		return (root, query, cb) -> cb.equal(root.get("creationDate"), creationDate);
 	}
 
 	private Specification<BankAccount> getCurrencySpecification(String currency) {

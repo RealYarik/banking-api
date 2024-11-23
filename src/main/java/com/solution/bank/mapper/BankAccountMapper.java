@@ -1,5 +1,6 @@
 package com.solution.bank.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mapstruct.Mapper;
@@ -56,6 +57,9 @@ public interface BankAccountMapper {
 	AccountTransactionDTO toTransactionDTO(AccountTransaction accountTransaction);
 
 	default List<AccountTransaction> mapToTransactionList(List<AccountTransactionDTO> transactionDTOList) {
+		if (transactionDTOList == null) {
+			return new ArrayList<>();
+		}
 		return transactionDTOList.stream()
 			.map(this::mapToTransaction).toList();
 	}

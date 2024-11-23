@@ -57,7 +57,43 @@ class AccountTransactionRepositoryTest {
 			"SELECT COUNT(*) FROM account_transaction WHERE transaction_type = 'TRANSFER'",
 			Integer.class
 		);
-		assertThat(count).isEqualTo(2);
+		assertThat(count).isEqualTo(1);
+	}
+
+	@Test
+	void shouldLogDepositTransaction() {
+		TransactionRequest request = new TransactionRequest();
+		request.setAccountNumber("ACCT-001");
+		request.setAmount(BigDecimal.valueOf(500.00));
+		request.setCurrency("USD");
+		request.setSource("Cash Deposit");
+
+		repository.logDepositTransaction(request);
+
+		Integer count = jdbcTemplate.queryForObject(
+			"SELECT COUNT(*) FROM account_transaction WHERE transaction_type = 'DEPOSIT' AND account_id = (SELECT id FROM bank_account WHERE account_number = ?)",
+			Integer.class, "ACCT-001"
+		);
+
+		assertThat(count).isEqualTo(3);
+	}
+
+	@Test
+	void shouldLogWithdrawalTransaction() {
+		TransactionRequest request = new TransactionRequest();
+		request.setAccountNumber("ACCT-001");
+		request.setAmount(BigDecimal.valueOf(200.00));
+		request.setCurrency("USD");
+		request.setAtmLocation("ATM-001");
+
+		repository.logWithdrawalTransaction(request);
+
+		Integer count = jdbcTemplate.queryForObject(
+			"SELECT COUNT(*) FROM account_transaction WHERE transaction_type = 'WITHDRAWAL' AND account_id = (SELECT id FROM bank_account WHERE account_number = ?)",
+			Integer.class, "ACCT-001"
+		);
+
+		assertThat(count).isEqualTo(1);
 	}
 
 	@Test

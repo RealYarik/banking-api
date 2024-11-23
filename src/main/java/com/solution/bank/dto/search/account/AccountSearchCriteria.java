@@ -1,6 +1,6 @@
 package com.solution.bank.dto.search.account;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import com.solution.bank.dto.search.SearchCriteria;
 
@@ -9,9 +9,8 @@ import lombok.Data;
 @Data
 public class AccountSearchCriteria implements SearchCriteria {
 
-	private Double balanceGreaterThan;
-	private Double balanceLessThan;
+	private BigDecimal balanceGreaterThan;
+	private BigDecimal balanceLessThan;
 	private String ownerName;
-	private Date creationDate;
 	private String currency;
 }

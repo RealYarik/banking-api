@@ -31,6 +31,10 @@ public class BankAccountService {
 		return bankAccountMapper.toDTOList(bankAccountRepository.findAll(specification));
 	}
 
+	public List<BankAccountDTO> getAccounts() {
+		return bankAccountMapper.toDTOList(bankAccountRepository.findAll());
+	}
+
 	public BankAccountDTO getAccountByNumber(String accountNumber) {
 		BankAccount bankAccount = bankAccountRepository.findBankAccountByAccountNumber(accountNumber)
 			.orElseThrow(() -> new IllegalArgumentException("Account not found"));

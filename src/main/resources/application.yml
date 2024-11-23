@@ -1,0 +1,34 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: Banking Solution
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/banking_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: user
+    password: userpassword
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 30000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+        use_sql_comments: false
+
+logging:
+  level:
+    org.hibernate.SQL: OFF
+    org.hibernate.type.descriptor.sql: OFF
+    com.solution.bank: DEBUG
+    org.springframework: INFO
+    com.zaxxer.hikari: DEBUG

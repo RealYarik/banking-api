@@ -16,7 +16,7 @@ public abstract class AbstractUuidEntity<T extends Serializable> extends Abstrac
 	protected String uuid = RandomUtils.generateUuid();
 
 	@Override
-	public String getUuid() {
+	public String uuid() {
 		return uuid;
 	}
 

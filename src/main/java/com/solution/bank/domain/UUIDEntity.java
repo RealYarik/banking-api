@@ -2,7 +2,7 @@ package com.solution.bank.domain;
 
 public interface UUIDEntity {
 
-	String getUuid();
+	String uuid();
 
 	default boolean equalsByUuid(Object obj) {
 		if (this == obj) {
@@ -18,18 +18,18 @@ public interface UUIDEntity {
 
 		final UUIDEntity that = (UUIDEntity) obj;
 
-		if (getUuid() == null) {
+		if (uuid() == null) {
 			throw new IllegalStateException("Equals was called before UUID initialization");
 		}
 
-		return getUuid().equals(that.getUuid());
+		return uuid().equals(that.uuid());
 	}
 
 	default int hashcodeByUuid() {
-		if (getUuid() == null) {
+		if (uuid() == null) {
 			throw new IllegalStateException("Hashcode was called before uuid initialization");
 		}
 
-		return getUuid().hashCode();
+		return uuid().hashCode();
 	}
 }
