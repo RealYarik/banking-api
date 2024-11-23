@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import com.solution.bank.dto.account.BankAccountDTO;
+import com.solution.bank.dto.account.CreateBankAccountDTO;
 import com.solution.bank.dto.search.account.AccountSearchCriteria;
 import com.solution.bank.service.BankAccountService;
 
@@ -29,7 +30,7 @@ public class BankAccountController {
 	}
 
 	@PostMapping("/create")
-	public BankAccountDTO createAccount(@RequestBody BankAccountDTO account) {
+	public BankAccountDTO createAccount(@RequestBody CreateBankAccountDTO account) {
 		return bankAccountService.createAccount(account);
 	}
 }

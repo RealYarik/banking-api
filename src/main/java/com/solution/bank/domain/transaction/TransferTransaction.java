@@ -13,9 +13,9 @@ import lombok.Setter;
 public class TransferTransaction extends AccountTransaction {
 
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "target_account_id", nullable = false)
+	@JoinColumn(name = "target_account_id")
 	private BankAccount targetAccount;
 
-	@Column(nullable = false)
+	@Column
 	private String transferPurpose;
 }

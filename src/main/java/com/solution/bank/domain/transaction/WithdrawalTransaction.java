@@ -12,6 +12,6 @@ import lombok.Setter;
 @Setter
 public class WithdrawalTransaction extends AccountTransaction {
 
-	@Column(nullable = false)
+	@Column
 	private String atmLocation;
 }

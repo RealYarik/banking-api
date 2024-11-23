@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.solution.bank.dto.transaction.request.TransactionRequest;
+import com.solution.bank.util.RandomUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,24 +32,30 @@ public class AccountTransactionRepository {
 	}
 
 	public void logDepositTransaction(TransactionRequest request) {
-		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, source) " +
-			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'DEPOSIT', ?)";
-		jdbcTemplate.update(query, request.getAccountNumber(), request.getAmount(), request.getCurrency(), request.getSource());
+		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, source, uuid) " +
+			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'DEPOSIT', ?, ?)";
+		jdbcTemplate.update(query, request.getAccountNumber(), request.getAmount(), request.getCurrency(), request.getSource(), RandomUtils.generateUuid());
 	}
 
 	public void logWithdrawalTransaction(TransactionRequest request) {
-		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, atm_location) " +
-			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'WITHDRAWAL', ?)";
-		jdbcTemplate.update(query, request.getAccountNumber(), request.getAmount(), request.getCurrency(), request.getAtmLocation());
+		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, atm_location, uuid) " +
+			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'WITHDRAWAL', ?, ?)";
+		jdbcTemplate.update(query, request.getAccountNumber(), request.getAmount(), request.getCurrency(), request.getAtmLocation(), RandomUtils.generateUuid());
 	}
 
 	public void logTransferTransaction(TransactionRequest request) {
-		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, transfer_purpose) " +
-			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'TRANSFER', ?)";
-		jdbcTemplate.update(query, request.getFromAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose());
+		String query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, transfer_purpose, uuid) " +
+			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'TRANSFER', ?, ?)";
+		jdbcTemplate.update(query, request.getFromAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose(), RandomUtils.generateUuid());
 
-		query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, transfer_purpose) " +
-			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'TRANSFER', ?)";
-		jdbcTemplate.update(query, request.getToAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose());
+		query = "INSERT INTO account_transaction (account_id, transaction_date, amount, currency, transaction_type, transfer_purpose, uuid) " +
+			"VALUES ((SELECT id FROM bank_account WHERE account_number = ?), NOW(), ?, ?, 'TRANSFER', ?, ?)";
+		jdbcTemplate.update(query, request.getToAccountNumber(), request.getAmount(), request.getCurrency(), request.getTransferPurpose(), RandomUtils.generateUuid());
+	}
+
+	public boolean existsByAccountNumber(String accountNumber) {
+		String query = "SELECT COUNT(1) FROM bank_account WHERE account_number = ?";
+		Integer count = jdbcTemplate.queryForObject(query, Integer.class, accountNumber);
+		return count != null && count > 0;
 	}
 }

@@ -1,12 +1,8 @@
 package com.solution.bank.domain;
 
-import java.util.UUID;
-
-import org.hibernate.Hibernate;
-
 public interface UUIDEntity {
 
-	UUID getUuid();
+	String getUuid();
 
 	default boolean equalsByUuid(Object obj) {
 		if (this == obj) {
@@ -16,14 +12,14 @@ public interface UUIDEntity {
 			return false;
 		}
 
-		if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
 
 		final UUIDEntity that = (UUIDEntity) obj;
 
 		if (getUuid() == null) {
-			throw new IllegalStateException("Equals was called before uuid initialization");
+			throw new IllegalStateException("Equals was called before UUID initialization");
 		}
 
 		return getUuid().equals(that.getUuid());

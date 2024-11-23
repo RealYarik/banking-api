@@ -12,6 +12,5 @@ public class AccountTransactionDTO {
 	private Long id;
 	private BigDecimal amount;
 	private String transactionType;
-	private String description;
 	private String transactionDate;
 }

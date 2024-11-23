@@ -2,8 +2,6 @@ package com.solution.bank.domain;
 
 import java.io.Serializable;
 
-import org.hibernate.Hibernate;
-
 public abstract class AbstractEntity<T extends Serializable> implements Serializable {
 
 	public abstract T getId();
@@ -16,7 +14,8 @@ public abstract class AbstractEntity<T extends Serializable> implements Serializ
 		if (obj == null) {
 			return false;
 		}
-		if (Hibernate.getClass(this) != Hibernate.getClass(obj)) {
+
+		if (this.getClass() != obj.getClass()) {
 			return false;
 		}
 
