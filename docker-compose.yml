@@ -16,6 +16,24 @@ services:
     networks:
       - bank-network
 
+  bank-app:
+    image: bank-app:latest
+    container_name: bank-app
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/banking_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: userpassword
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - bank-network
+    build:
+      context: .
+      dockerfile: Dockerfile
+
 volumes:
   mysql-data:
 
