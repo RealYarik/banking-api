@@ -275,3 +275,6 @@ Hibernate to achieve better performance, fine-grained control over
 complex transactions, and optimized custom queries specific to the banking 
 operations, avoiding the overhead of Hibernate’s object-relational mapping,
 while also ensuring security and preventing issues with caching in banking applications.
+
+### Author
+This project was developed by **Yaroslav Chalyk**.
