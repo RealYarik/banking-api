@@ -55,6 +55,20 @@ mvn clean test jacoco:report
    ```
 The report provides a detailed breakdown of code coverage, including line and branch coverage.
 
+# Technology Stack
+- **Java 17**: The programming language used.
+- **Spring Boot**: Framework for rapid web application development.
+- **MySQL**: Relational database for storing banking data.
+- **Hibernate**: ORM for database interaction.
+- **Docker**: For containerizing the application.
+- **JUnit 5**: For unit testing.
+
+# Key Design Choices
+- **Architecture**: The application follows a layered architecture (Controller, Service, Repository).
+- **Docker**: The application and database run in separate containers for easy setup and deployment.
+- **Logging**: Configured SLF4J logging for efficient event tracking.
+- **Testing**: Key methods are covered with unit tests using JUnit.
+
 # API Endpoints
 
 This application provides RESTful API endpoints for managing bank accounts and transactions. Below are the details of the available endpoints.
